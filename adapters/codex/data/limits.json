@@ -1,0 +1,19 @@
+{
+  "_note": "Starting values, not measured. Tune after the first benchmark runs.",
+  "max_attempts_per_task_role": 3,
+  "replan_after_failures": 2,
+  "max_parallel_total": 6,
+  "max_auto_continues_per_stage": 40,
+  "ci_timeout_seconds": 1800,
+  "run": {"wall_minutes": 1800, "tokens": 40000000},
+  "stage_budgets": {
+    "discover": {"dispatches": 40},
+    "define": {"dispatches": 20},
+    "design": {"dispatches": 40},
+    "plan": {"dispatches": 10},
+    "build": {"dispatches": 400},
+    "release": {"dispatches": 20}
+  },
+  "test_globs": ["tests/**", "test/**", "**/__tests__/**", "**/*.test.*", "**/*.spec.*", "**/test_*.py", "**/*_test.py", "conftest.py"],
+  "hash_skip_dirs": [".git", "node_modules", ".venture", ".venv", "venv", "__pycache__", "dist", "build", ".next", "target"]
+}

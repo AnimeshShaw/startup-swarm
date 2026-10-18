@@ -1,0 +1,14 @@
+{
+  "name": "startup-swarm",
+  "owner": {
+    "name": "Animesh Shaw",
+    "url": "https://github.com/AnimeshShaw"
+  },
+  "plugins": [
+    {
+      "name": "swarm",
+      "source": "adapters/cursor",
+      "description": "Token-intensive multi-agent startup pipeline for Claude Code. Give it a problem; specialised, isolated agents research, define, design, build, test and audit it, with hook-enforced isolation and three signed human gates. One-shot /swarm:run, or /swarm:god for no questions. Runs for hours and uses a lot of tokens."
+    }
+  ]
+}

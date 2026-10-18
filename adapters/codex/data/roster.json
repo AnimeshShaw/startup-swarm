@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "default_preset": "lean",
+  "presets": {
+    "lean": {
+      "roles": ["strategy-head", "source-verifier", "product-head", "architect", "security-lead", "engineer-senior", "qa", "auditor"],
+      "absorb": {
+        "market-researcher": "strategy-head",
+        "marketing-head": "strategy-head",
+        "finance-legal": "architect",
+        "delivery-manager": "architect",
+        "devops": "architect",
+        "security-engineer": "security-lead",
+        "compliance-analyst": "security-lead",
+        "engineer-junior": "engineer-senior",
+        "red-team": "auditor"
+      },
+      "absorb_skills": {
+        "marketing-head": "dept-marketing",
+        "finance-legal": "dept-finance-legal",
+        "delivery-manager": "dept-delivery",
+        "devops": "dept-devops",
+        "compliance-analyst": "dept-compliance",
+        "red-team": "method-red-team"
+      },
+      "spawn_caps": {"engineer-senior": 4, "qa": 2, "auditor": 2}
+    },
+    "full": {
+      "roles": ["strategy-head", "market-researcher", "source-verifier", "marketing-head", "product-head", "finance-legal", "architect", "delivery-manager", "devops", "security-lead", "security-engineer", "compliance-analyst", "engineer-senior", "engineer-junior", "qa", "auditor", "red-team"],
+      "absorb": {},
+      "absorb_skills": {},
+      "spawn_caps": {"engineer-senior": 5, "engineer-junior": 8, "market-researcher": 4, "security-engineer": 2, "qa": 3, "auditor": 3}
+    }
+  }
+}

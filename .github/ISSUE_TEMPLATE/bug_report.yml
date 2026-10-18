@@ -1,0 +1,23 @@
+name: Bug report
+description: Something broke or a guard/gate behaved wrongly
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes: {label: What happened, description: "Expected vs actual behaviour"}
+    validations: {required: true}
+  - type: textarea
+    id: repro
+    attributes: {label: Steps to reproduce}
+    validations: {required: true}
+  - type: input
+    id: host
+    attributes: {label: Host and version, placeholder: "Claude Code 2.1.x / Codex / Cursor"}
+    validations: {required: true}
+  - type: input
+    id: os
+    attributes: {label: OS and Python version}
+    validations: {required: true}
+  - type: textarea
+    id: ledger
+    attributes: {label: Relevant ledger or log lines, description: "From .venture/runtime/. Remove anything private.", render: text}

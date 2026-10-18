@@ -1,0 +1,25 @@
+{
+  "order": ["discover", "G1", "define", "design", "G2", "plan", "build", "release", "G3", "done"],
+  "stages": {
+    "discover": {"requires": []},
+    "define":   {"requires": ["G1"]},
+    "design":   {"requires": ["G1"], "requires_artifacts": [{"type": "prd"}]},
+    "plan":     {"requires": ["G2"]},
+    "build":    {"requires": ["G2"], "requires_artifacts": [{"type": "backlog"}]},
+    "release":  {"requires": ["G2"]}
+  },
+  "gates": {
+    "G1": {
+      "allow_exploratory": true,
+      "artifacts": [{"type": "market-brief"}, {"type": "evidence-plan"}, {"type": "verification"}, {"type": "redteam", "gate": "G1"}]
+    },
+    "G2": {
+      "artifacts": [{"type": "prd"}, {"type": "adr"}, {"type": "threat-model"}, {"type": "compliance-map"}, {"type": "cost-model"}, {"type": "decision-pack"}, {"type": "redteam", "gate": "G2"}]
+    },
+    "G3": {
+      "artifacts": [{"type": "release-report"}, {"type": "redteam", "gate": "G3"}]
+    }
+  },
+  "needs_test_lock": ["engineer-senior", "engineer-junior"],
+  "test_verify_after": ["engineer-senior", "engineer-junior", "devops"]
+}

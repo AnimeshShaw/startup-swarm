@@ -1,0 +1,75 @@
+{
+  "_common_front": ["type", "version", "author", "status"],
+  "_status_values": ["draft", "final"],
+  "market-brief": {
+    "headings": ["Summary", "Customer problem", "Market", "Competitors", "Hypotheses", "Claims register"],
+    "claims": true, "min_claims": 5, "min_words": 150
+  },
+  "evidence-plan": {
+    "headings": ["Hypotheses to test", "Experiments", "Pass criteria", "Kill criteria"],
+    "min_words": 100
+  },
+  "verification": {
+    "extra_front": ["subject", "verified_pct"],
+    "headings": ["Method", "Results", "Unverifiable claims"],
+    "min_words": 80
+  },
+  "redteam": {
+    "extra_front": ["gate"],
+    "enums": {"gate": ["G1", "G2", "G3"]},
+    "headings": ["Challenges", "Dissent", "Residual risk"],
+    "min_words": 100
+  },
+  "gtm-plan": {
+    "headings": ["Positioning", "Channels", "Pricing hypothesis", "Launch plan", "Metrics"],
+    "claims": true, "min_claims": 2, "min_words": 150
+  },
+  "prd": {
+    "headings": ["Problem", "Users", "Scope", "Non-goals", "Requirements", "Acceptance criteria", "Risks"],
+    "patterns": [{"regex": "AC-\\d+", "min": 3, "msg": "needs at least 3 acceptance criteria with ids AC-1, AC-2, ..."}],
+    "min_words": 200
+  },
+  "adr": {
+    "extra_front": ["id"],
+    "headings": ["Context", "Decision", "Alternatives", "Consequences", "Dissent"],
+    "min_words": 100
+  },
+  "threat-model": {
+    "headings": ["Assets", "Trust boundaries", "Threats", "Mitigations", "Residual risk"],
+    "patterns": [{"regex": "T-\\d+", "min": 3, "msg": "needs at least 3 threats with ids T-1, T-2, ..."}],
+    "min_words": 200
+  },
+  "compliance-map": {
+    "headings": ["Target market", "Applicable regimes", "Obligations", "Gaps"],
+    "claims": true, "min_claims": 3, "min_words": 150
+  },
+  "cost-model": {
+    "headings": ["Assumptions", "Hosting", "Monthly cost", "Annual cost", "Sensitivity"],
+    "patterns": [{"regex": "(\\$|USD|INR|Rs\\.?|₹|EUR|€)", "min": 1, "msg": "state costs with an explicit currency"}],
+    "claims": true, "min_claims": 3, "min_words": 150
+  },
+  "decision-pack": {
+    "headings": ["Recommendation", "Scope of MVP", "Architecture", "Cost", "Risks", "Open questions", "Dissent"],
+    "max_words": 1100, "min_words": 200
+  },
+  "backlog": {
+    "headings": ["Sprints", "Tasks", "Dependencies"],
+    "patterns": [{"regex": "TASK-\\d+", "min": 1, "msg": "tasks need ids TASK-1, TASK-2, ..."}],
+    "min_words": 80
+  },
+  "test-plan": {
+    "headings": ["Traceability", "Test list"],
+    "patterns": [{"regex": "AC-\\d+", "min": 1, "msg": "map tests to acceptance criteria ids"}],
+    "min_words": 50
+  },
+  "audit": {
+    "extra_front": ["task", "verdict"],
+    "enums": {"verdict": ["approve", "reject", "veto"]},
+    "headings": ["Findings", "Failure modes considered", "Verdict"],
+    "min_words": 60
+  },
+  "release-report": {
+    "headings": ["Summary", "Test results", "Audit log", "Known issues", "Run metrics"],
+    "min_words": 150
+  }
+}

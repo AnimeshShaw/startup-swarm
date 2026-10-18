@@ -1,0 +1,481 @@
+{
+  "architect": {
+    "title": "Chief architect (CTO)",
+    "dept": "engineering",
+    "reports_to": "orchestrator",
+    "tier": "deep",
+    "stages": [
+      "design",
+      "plan",
+      "build",
+      "release"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "bash",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/adr/**",
+      ".venture/artifacts/backlog/**",
+      ".venture/artifacts/audit/**",
+      ".venture/artifacts/cost-model/**",
+      ".venture/artifacts/release-report/**",
+      ".venture/work/*/task.md",
+      ".venture/work/architect/**",
+      ".venture/work/legal/**",
+      ".venture/work/delivery/**",
+      ".venture/work/devops/**",
+      "infra/**",
+      "deploy/**",
+      ".github/**",
+      "Dockerfile*",
+      "docker-compose*.yml",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "auditor": {
+    "title": "Blind auditor",
+    "dept": "quality",
+    "reports_to": "orchestrator",
+    "tier": "deep",
+    "stages": [
+      "discover",
+      "design",
+      "build",
+      "release"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "web"
+    ],
+    "reads": [
+      "**",
+      "!.venture/work/*/result.md",
+      "!.venture/work/*/scratch/**",
+      "!.venture/work/*/test-dispute.md",
+      "!.venture/state/**",
+      "!.venture/questions/**",
+      "!.venture/ledger.jsonl"
+    ],
+    "writes": [
+      ".venture/artifacts/audit/**",
+      ".venture/artifacts/redteam/**",
+      ".venture/work/redteam/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 2
+  },
+  "compliance-analyst": {
+    "title": "Compliance analyst",
+    "dept": "security",
+    "reports_to": "security-lead",
+    "tier": "standard",
+    "stages": [
+      "design"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/compliance-map/**",
+      ".venture/work/compliance/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "delivery-manager": {
+    "title": "Delivery manager (COO)",
+    "dept": "operations",
+    "reports_to": "orchestrator",
+    "tier": "standard",
+    "stages": [
+      "plan",
+      "release"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "bash"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/backlog/**",
+      ".venture/artifacts/release-report/**",
+      ".venture/work/*/task.md",
+      ".venture/work/delivery/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "devops": {
+    "title": "Infrastructure and delivery (CIO)",
+    "dept": "engineering",
+    "reports_to": "architect",
+    "tier": "standard",
+    "stages": [
+      "design",
+      "build",
+      "release"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "bash",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/adr/**",
+      ".venture/work/devops/**",
+      "infra/**",
+      "deploy/**",
+      ".github/**",
+      "Dockerfile*",
+      "docker-compose*.yml",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "engineer-junior": {
+    "title": "Junior engineer",
+    "dept": "engineering",
+    "reports_to": "architect",
+    "tier": "fast",
+    "stages": [
+      "build"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "bash"
+    ],
+    "reads": [
+      "**",
+      "!.venture/ledger.jsonl"
+    ],
+    "writes": [
+      "**",
+      "!@tests",
+      "!.venture/**",
+      ".venture/work/*/result.md",
+      ".venture/work/*/scratch/**",
+      ".venture/work/*/test-dispute.md",
+      ".venture/questions/**"
+    ],
+    "max_instances": 6
+  },
+  "engineer-senior": {
+    "title": "Senior engineer",
+    "dept": "engineering",
+    "reports_to": "architect",
+    "tier": "standard",
+    "stages": [
+      "build"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "bash"
+    ],
+    "reads": [
+      "**",
+      "!.venture/ledger.jsonl"
+    ],
+    "writes": [
+      "**",
+      "!@tests",
+      "!.venture/**",
+      ".venture/work/*/result.md",
+      ".venture/work/*/scratch/**",
+      ".venture/work/*/test-dispute.md",
+      ".venture/questions/**"
+    ],
+    "max_instances": 4
+  },
+  "finance-legal": {
+    "title": "Finance and legal",
+    "dept": "finance",
+    "reports_to": "orchestrator",
+    "tier": "standard",
+    "stages": [
+      "design"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/cost-model/**",
+      ".venture/work/legal/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "market-researcher": {
+    "title": "Market researcher",
+    "dept": "strategy",
+    "reports_to": "strategy-head",
+    "tier": "standard",
+    "stages": [
+      "discover"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/work/research/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 4
+  },
+  "marketing-head": {
+    "title": "Chief Marketing Officer",
+    "dept": "marketing",
+    "reports_to": "orchestrator",
+    "tier": "standard",
+    "stages": [
+      "define"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/gtm-plan/**",
+      ".venture/work/marketing/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "orchestrator": {
+    "title": "Orchestrator (CEO)",
+    "dept": "executive",
+    "reports_to": "human",
+    "tier": "deep",
+    "stages": [
+      "*"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "spawn"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/state/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "product-head": {
+    "title": "Chief Product Officer",
+    "dept": "product",
+    "reports_to": "orchestrator",
+    "tier": "deep",
+    "stages": [
+      "define",
+      "design"
+    ],
+    "tools": [
+      "read",
+      "write"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/prd/**",
+      ".venture/artifacts/decision-pack/**",
+      ".venture/work/product/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "qa": {
+    "title": "QA engineer",
+    "dept": "engineering",
+    "reports_to": "architect",
+    "tier": "standard",
+    "stages": [
+      "build"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "bash"
+    ],
+    "reads": [
+      "**",
+      "!.venture/ledger.jsonl"
+    ],
+    "writes": [
+      "@tests",
+      ".venture/artifacts/test-plan/**",
+      ".venture/work/*/qa-*.md",
+      ".venture/questions/**"
+    ],
+    "max_instances": 2
+  },
+  "red-team": {
+    "title": "Red team",
+    "dept": "quality",
+    "reports_to": "orchestrator",
+    "tier": "deep",
+    "stages": [
+      "discover",
+      "design",
+      "release"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/redteam/**",
+      ".venture/work/redteam/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "security-engineer": {
+    "title": "Security engineer",
+    "dept": "security",
+    "reports_to": "security-lead",
+    "tier": "standard",
+    "stages": [
+      "design",
+      "build"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "bash",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/work/security/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 2
+  },
+  "security-lead": {
+    "title": "Security lead (CISO)",
+    "dept": "security",
+    "reports_to": "orchestrator",
+    "tier": "deep",
+    "stages": [
+      "design",
+      "build",
+      "release"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "bash",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/threat-model/**",
+      ".venture/artifacts/compliance-map/**",
+      ".venture/artifacts/audit/**",
+      ".venture/work/security/**",
+      ".venture/work/compliance/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "source-verifier": {
+    "title": "Source verifier",
+    "dept": "strategy",
+    "reports_to": "orchestrator",
+    "tier": "standard",
+    "stages": [
+      "discover"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "web"
+    ],
+    "reads": [
+      "**",
+      "!.venture/work/**",
+      "!.venture/state/**",
+      "!.venture/ledger.jsonl"
+    ],
+    "writes": [
+      ".venture/artifacts/verification/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  },
+  "strategy-head": {
+    "title": "Chief Strategy Officer",
+    "dept": "strategy",
+    "reports_to": "orchestrator",
+    "tier": "deep",
+    "stages": [
+      "discover",
+      "define"
+    ],
+    "tools": [
+      "read",
+      "write",
+      "web"
+    ],
+    "reads": [
+      "**"
+    ],
+    "writes": [
+      ".venture/artifacts/market-brief/**",
+      ".venture/artifacts/evidence-plan/**",
+      ".venture/artifacts/gtm-plan/**",
+      ".venture/work/research/**",
+      ".venture/work/strategy/**",
+      ".venture/work/marketing/**",
+      ".venture/questions/**"
+    ],
+    "max_instances": 1
+  }
+}

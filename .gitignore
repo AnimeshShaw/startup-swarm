@@ -1,0 +1,15 @@
+# private: strategy, roadmap and design notes. Kept on disk, never committed.
+private/
+
+# runtime / tooling
+.venture/
+.swarm/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+Thumbs.db
+*.log
+.xfer.tgz
+*.tgz
+*.bundle
