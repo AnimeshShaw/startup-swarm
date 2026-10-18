@@ -13,3 +13,4 @@ Thumbs.db
 .xfer.tgz
 *.tgz
 *.bundle
+site/

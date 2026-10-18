@@ -1,0 +1,86 @@
+site_name: Startup Swarm
+site_description: An AI startup team for Claude Code. Give it a problem; it researches, designs, builds and tests, then stops at 3 human checkpoints.
+site_url: https://animeshshaw.github.io/startup-swarm/
+site_author: Animesh Shaw
+repo_url: https://github.com/AnimeshShaw/startup-swarm
+repo_name: AnimeshShaw/startup-swarm
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; 2026 Animesh Shaw. MIT licensed.
+
+docs_dir: docs
+strict: true
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/account-group
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - toc.follow
+
+nav:
+  - Home: index.md
+  - Get started:
+      - Install: install.md
+      - Usage guide: usage.md
+      - Settings and configuration: settings.md
+  - Concepts:
+      - Architecture: architecture.md
+      - Security model: security-model.md
+      - Roles: roles.md
+      - Artifacts: artifacts.md
+  - FAQ: faq.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/AnimeshShaw/startup-swarm
