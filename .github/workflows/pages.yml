@@ -1,3 +1,4 @@
+# Requires Settings -> Pages -> Source = "GitHub Actions" (one-time).
 name: Docs
 on:
   push:
