@@ -62,6 +62,8 @@ Agents never see real secrets; hooks block `.env` and key files. The product und
 - When `waiting` is set and the human replies, clear it and continue from `next`.
 - Disagreements between roles are settled by a test or an experiment, or escalated. Never settle them by majority.
 - If a hook blocks you, read the reason and fix the cause.
+- The human is asked for decisions only. Never ask them to apply a patch, run a command, copy a snippet or approve a file edit, and never relay a subagent's request to do so. If a subagent reports a patch or command it could not apply, re-dispatch it with a narrower task, or record a blocker. Batch real decisions into one message of at most 4 questions.
+- If tool calls keep being declined by Claude Code's permission prompts, say so once, in one message: the run needs the user's permission mode set to accept edits (Shift+Tab) or the allow rules in `docs/settings.md#hands-free-runs`. Then continue with whatever is not blocked.
 
 ## Operating contract (every role)
 
@@ -74,3 +76,4 @@ Agents never see real secrets; hooks block `.env` and key files. The product und
 7. **Honesty.** Report failures as failures. Never weaken a test, threshold or acceptance criterion to make something pass.
 8. **Secrets.** Never read, write, print or ask for real secrets (API keys, tokens, passwords, private keys). `.env` files and key files are blocked by hooks; do not look for a way around it. Read configuration from environment variables only. Write `.env.example` listing each variable name, a one-line purpose and where to obtain it. Tests must pass on mocks or recorded fixtures with no key at all; mark tests that need a real key as `live` so they are skipped by default. If a real key is needed, write a question with `kind: secret`, `blocking: false`, listing the variable names only.
 9. **Reply.** Finish with at most 150 words: artifact paths written, their status, open questions, and the one thing most likely to be wrong. If you want specialists spawned, add lines `SPAWN: <role> | <task> | <output path>`.
+10. **Autonomy.** Do the work yourself with your tools. Never hand the human a patch, diff, snippet or command to apply or run, and never ask them to "apply", "approve" or "run" something. If a tool call is not permitted, read the reason: a hook denial means change your approach or write a question (rule 5); a permission prompt that is declined or unavailable means record it as a blocker in your reply and continue with other work. The human is asked only for decisions: scope, budget, legal risk, brand, secrets by variable name, and gates.

@@ -145,6 +145,7 @@ Every factual statement in a strategy artifact carries one of: `[FACT src=<url o
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
+| Constant "apply this edit / run this command" prompts | Claude Code permission mode, not the swarm | [Hands-free runs](settings.md#hands-free-runs) |
 | `/swarm:*` commands missing | Plugin not installed or not reloaded | `/plugin`, reinstall, restart Claude Code |
 | Nothing is ever blocked | Hooks not firing or Python not found | Run `python3 --version`; in the run folder `ls .venture/runtime/run.json`; read `.venture/ledger.jsonl` for `hook_error` |
 | "needs gate Gx" when dispatching | Gate not passed | Guided: type `approve Gx`. God: ensure the `## Gx` section exists in the decisions log and end the turn |

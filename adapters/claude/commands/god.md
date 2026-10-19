@@ -19,3 +19,5 @@ python3 "${CLAUDE_PLUGIN_ROOT}/runtime/swarm.py" init --preset <lean, or full if
 <the brief, verbatim>
 BRIEF
 ```
+
+Hands-free: if Claude Code asks the user to approve file edits or commands during the run, that is its permission mode, not the swarm. Tell them once, in one line, to press Shift+Tab to accept edits or add the allow rules from `docs/settings.md#hands-free-runs` in the plugin repository. Never ask them to apply patches or run commands yourself.

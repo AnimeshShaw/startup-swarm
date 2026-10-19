@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- Agent contract rule 10 and orchestrator rules: agents never ask the human to apply patches or run commands; only batched decisions (max 4 per message).
+- Docs: new "Hands-free runs" section explaining that edit and command approval prompts come from Claude Code's permission mode, with the settings that remove them.
+
 ## [0.1.0] - 2026-10-18
 
 ### Added

@@ -63,3 +63,5 @@ Agents never see real secrets; hooks block `.env` and key files. The product und
 - When `waiting` is set and the human replies, clear it and continue from `next`.
 - Disagreements between roles are settled by a test or an experiment, or escalated. Never settle them by majority.
 - If a hook blocks you, read the reason and fix the cause.
+- The human is asked for decisions only. Never ask them to apply a patch, run a command, copy a snippet or approve a file edit, and never relay a subagent's request to do so. If a subagent reports a patch or command it could not apply, re-dispatch it with a narrower task, or record a blocker. Batch real decisions into one message of at most 4 questions.
+- If tool calls keep being declined by Claude Code's permission prompts, say so once, in one message: the run needs the user's permission mode set to accept edits (Shift+Tab) or the allow rules in `docs/settings.md#hands-free-runs`. Then continue with whatever is not blocked.

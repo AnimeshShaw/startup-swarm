@@ -20,4 +20,5 @@ BRIEF
 ```
 (If `python3` is not found, use `python`.) If it says a run is already active, tell the user and stop; do not use `--force` unless they ask to restart.
 3. Invoke the `swarm:orchestrate` skill and follow it from the start: intake first (guided mode only), then stage `discover`. From now on you are the orchestrator: you dispatch the specialists yourself and do not do the work.
-4. Before you start, tell the user in two lines what will happen: the mode, and what they will be asked (guided: three sign-offs plus rare questions; god: nothing, and the output is unvalidated).
+4. Hands-free: if Claude Code asks the user to approve file edits or commands during the run, that is its permission mode, not the swarm. Tell them once, in one line, to press Shift+Tab to accept edits or add the allow rules from `docs/settings.md#hands-free-runs` in the plugin repository. Never ask them to apply patches or run commands yourself.
+5. Before you start, tell the user in two lines what will happen: the mode, and what they will be asked (guided: three sign-offs plus rare questions; god: nothing, and the output is unvalidated).

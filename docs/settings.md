@@ -111,6 +111,27 @@ Everything is inside `.venture/` in your project. Add it to `.gitignore`; the sw
 | `/swarm:pause`, `/swarm:resume` | Stop or resume auto-continue |
 | `/swarm:end` | Turn the run's hooks off and restore normal Claude Code behaviour |
 
+## Hands-free runs
+
+Claude Code, not the swarm, asks you to approve file edits and shell commands. A plugin cannot switch that off for you: plugin `settings.json` ignores `permissions`, and subagent `permissionMode` is ignored for plugin agents. Until you grant permission, a run stalls on approval dialogs ("apply this edit?"). Pick one:
+
+| Option | How | Notes |
+|---|---|---|
+| Accept edits mode | Press **Shift+Tab** until the status line shows accept edits, or start with `claude --permission-mode acceptEdits` | Edits stop prompting; shell commands may still prompt |
+| Project allow rules | Create `.claude/settings.local.json` in the run folder with the JSON below | Covers edits and shell commands; keep risky commands on `ask` |
+| Headless | `claude -p "..." --permission-mode dontAsk --allowedTools "Edit" "Write" "Bash"` | Fails closed instead of waiting |
+
+```json
+{
+  "permissions": {
+    "allow": ["Edit", "Write", "MultiEdit", "NotebookEdit", "Bash", "PowerShell", "WebFetch", "WebSearch"],
+    "ask": ["Bash(sudo *)", "Bash(git push *)", "Bash(npm publish *)", "Bash(docker push *)", "Bash(gh release *)", "Bash(ssh *)", "Bash(terraform apply *)", "Bash(kubectl apply *)"]
+  }
+}
+```
+
+The swarm's own hooks still apply on top: they deny out-of-scope writes, `.env` access and gate tampering, and a hook denial wins over an allow rule. Use a scratch folder, because allowing edits and shell commands removes the safety net of per-action approval. Do not use `bypassPermissions` outside a container or VM.
+
 ## What is not configurable
 
 - The three gates cannot be skipped or approved by an agent. Only your typed message (or, in god mode only, the runtime's logged autopilot) passes one.
