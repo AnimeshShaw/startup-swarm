@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Startup Swarm: token-intensive, evidence-gated multi-agent product pipeline.",
-    "version": "0.1.1"
+    "version": "0.1.2"
   },
   "plugins": [
     {
       "name": "swarm",
       "source": "./adapters/claude",
       "description": "Token-intensive multi-agent startup pipeline for Claude Code. Give it a problem; specialised, isolated agents research, define, design, build, test and audit it, with hook-enforced isolation and three signed human gates. One-shot /swarm:run, or /swarm:god for no questions. Runs for hours and uses a lot of tokens.",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "author": {
         "name": "Animesh Shaw",
         "url": "https://github.com/AnimeshShaw"

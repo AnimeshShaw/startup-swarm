@@ -10,7 +10,7 @@ and stops at **three human gates** so it can't sprint past a bad premise.
 [![CI](https://github.com/AnimeshShaw/startup-swarm/actions/workflows/ci.yml/badge.svg)](https://github.com/AnimeshShaw/startup-swarm/actions/workflows/ci.yml)
 [![Docs](https://github.com/AnimeshShaw/startup-swarm/actions/workflows/pages.yml/badge.svg)](https://animeshshaw.github.io/startup-swarm/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.1.1-blueviolet.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.1.2-blueviolet.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-early%20(v0.1)-orange.svg)](docs/security-model.md#verification-status)
 [![Token usage](https://img.shields.io/badge/token%20usage-high-red.svg)](#-cost-and-token-usage)
 

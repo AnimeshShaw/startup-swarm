@@ -26,3 +26,7 @@ claude plugin validate adapters/claude --strict   # if you have Claude Code
 ## Reporting security issues
 
 Do not open a public issue. See [SECURITY.md](SECURITY.md).
+
+## Changing the guard
+
+Anything in `check`, `check_bash` or the hooks must keep `tests/test_install_layout.py` green. It installs the plugin the way users get it (under `~/.claude/plugins/...`), not from a checkout, because a guard that works from the repo can still block the plugin's own CI wrapper once installed.

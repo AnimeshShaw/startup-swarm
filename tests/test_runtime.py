@@ -650,3 +650,32 @@ class TestConfigConsistency(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)
+
+
+class TestPathForms(unittest.TestCase):
+    def test_norm_path_unifies_windows_and_msys_forms(self):
+        a = sw.norm_path(r"C:\Users\Me\.claude\plugins\x\runtime\swarm.py")
+        self.assertEqual(a, sw.norm_path("C:/Users/Me/.claude/plugins/x/runtime/swarm.py"))
+        self.assertEqual(a, sw.norm_path("/c/Users/Me/.claude/plugins/x/runtime/swarm.py"))
+        self.assertEqual(a, sw.norm_path(r"c:\users\me\.claude\plugins\x\runtime\swarm.py"))
+        self.assertNotEqual(a, sw.norm_path(r"C:\Users\Me\.claude\plugins\y\runtime\swarm.py"))
+
+    def test_windows_style_runtime_path_is_recognised(self):
+        saved = sw.RUNTIME
+        sw.RUNTIME = pathlib.PureWindowsPath(r"C:\Users\Me\.claude\plugins\x\runtime\swarm.py")
+        try:
+            for tok in (r"C:\Users\Me\.claude\plugins\x\runtime\swarm.py", "/c/Users/Me/.claude/plugins/x/runtime/swarm.py"):
+                self.assertNotIn(".claude", sw.strip_runtime('python "%s" ci --task T1 -- pytest' % tok))
+            self.assertIn(".claude", sw.strip_runtime("python C:/Users/Me/.claude/settings/swarm.py ci"))
+        finally:
+            sw.RUNTIME = saved
+
+    def test_selftest_passes_and_catches_a_blocked_runtime(self):
+        self.assertEqual(sw.runtime_selftest(), [])
+        saved, saved_strip = sw.RUNTIME, sw.strip_runtime
+        sw.RUNTIME = pathlib.Path("/home/u/.claude/plugins/swarm/runtime/swarm.py")
+        sw.strip_runtime = lambda c: c   # simulate the old behaviour
+        try:
+            self.assertTrue(sw.runtime_selftest())
+        finally:
+            sw.RUNTIME, sw.strip_runtime = saved, saved_strip

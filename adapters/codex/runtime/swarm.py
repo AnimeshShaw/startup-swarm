@@ -17,6 +17,7 @@ import re
 import shlex
 import subprocess
 import sys
+import tempfile
 import time
 import uuid
 
@@ -491,18 +492,43 @@ RUNTIME = HERE / "swarm.py"
 RT_TOKEN = re.compile(r"\"([^\"]*swarm\.py)\"|'([^']*swarm\.py)'|(\S*swarm\.py)")
 
 
+def norm_path(p):
+    """Compare-friendly form: forward slashes, MSYS /c/x -> c:/x, case-folded for drive-letter paths."""
+    s = str(p).replace("\\", "/")
+    s = re.sub(r"^/([A-Za-z])/", r"\1:/", s)
+    s = re.sub(r"/+", "/", s)
+    return s.lower() if re.match(r"^[A-Za-z]:/", s) else s
+
+
+def is_runtime(tok):
+    tok = os.path.expandvars(tok)
+    if norm_path(tok) == norm_path(RUNTIME):
+        return True
+    try:
+        return pathlib.Path(tok).expanduser().resolve() == RUNTIME.resolve()
+    except (OSError, ValueError, AttributeError):
+        return False
+
+
 def strip_runtime(cmd):
     """Remove this plugin's own runtime path from a command before the protected-path check.
     Marketplace installs live under ~/.claude/, which would otherwise make every `swarm.py ci` call look
-    like an access to .claude/. Only a token that resolves to exactly this file is removed."""
-    def sub(m):
-        tok = os.path.expandvars(m.group(1) or m.group(2) or m.group(3))
-        try:
-            same = pathlib.Path(tok).expanduser().resolve() == RUNTIME.resolve()
-        except (OSError, ValueError):
-            same = False
-        return " " if same else m.group(0)
-    return RT_TOKEN.sub(sub, cmd)
+    like an access to .claude/. Only a token that is exactly this file is removed."""
+    return RT_TOKEN.sub(lambda m: " " if is_runtime(m.group(1) or m.group(2) or m.group(3)) else m.group(0), cmd)
+
+
+def runtime_selftest():
+    """Problems that would stop agents from running the CI wrapper from where this plugin is installed."""
+    R, tests, bad = roles(), cfg("limits").get("test_globs", []), []
+    root = pathlib.Path(tempfile.gettempdir()) / "swarm-selftest"
+    for role, spec in sorted(R.items()):
+        if "bash" not in spec.get("tools", []) or not any(x in spec.get("writes", []) for x in ("**", "src/**")):
+            continue
+        for fmt in ('python "%s" ci --task SELFTEST -- python -c pass', "python '%s' diff --task SELFTEST", 'python3 "%s" ci --task SELFTEST -- python -c pass'):
+            why = check_bash(role, spec, fmt % RUNTIME, root, tests)
+            if why:
+                bad.append("%s: %s (%s)" % (role, why, fmt % "<runtime>"))
+    return bad
 
 
 def check_bash(role, spec, cmd, root, tests):
@@ -969,6 +995,9 @@ def cmd_init(args):
         sys.exit("unknown preset; choose from %s" % list(cfg("roster")["presets"]))
     if opts["--mode"] not in ("guided", "god"):
         sys.exit("unknown mode; choose guided or god")
+    problems = runtime_selftest()
+    if problems:
+        sys.exit("selftest failed: the guard would block agents from running the CI wrapper from %s:\n  - %s\nNothing was started. Please report this at https://github.com/AnimeshShaw/startup-swarm/issues with your OS and the path above." % (HERE, "\n  - ".join(problems[:5])))
     v = pathlib.Path(opts["--dir"]) / ".venture"
     rj = v / "runtime" / "run.json"
     if load_json(rj, {}).get("active") and not force:

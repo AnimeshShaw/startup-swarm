@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-10-19
+
+### Added
+- `init` now self-tests the guard against the plugin's real install path and refuses to start, with a clear message, if agents could not run the CI wrapper from there.
+- `tests/test_install_layout.py` installs the built plugin under `.claude/plugins/...`, a path with spaces and other awkward layouts, and drives the real hook entry point.
+
+### Fixed
+- Runtime path matching also recognises Windows (`C:\...`) and Git Bash (`/c/...`) spellings of the same file.
+
 ## [0.1.1] - 2026-10-19
 
 ### Fixed
