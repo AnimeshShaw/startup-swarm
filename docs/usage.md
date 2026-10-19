@@ -152,6 +152,8 @@ Every factual statement in a strategy artifact carries one of: `[FACT src=<url o
 | `cannot approve G1 yet:` | Missing or invalid final artifacts, or an open blocking question | The message lists each problem |
 | `X may not write Y` | Role isolation working as designed | The role should write a question instead |
 | Run stops after a while | A budget, a cap, or pause | `/swarm:status`; `ledger.jsonl` has `continue_cap`; `resume` |
+| `resume` did nothing after `end` | Before 0.1.1 an ended run could not be resumed | Update the plugin; `resume` now reactivates it. Otherwise `/swarm:run` with `--force` restarts (keeps artifacts) |
+| `that path is protected` on `swarm.py ci` | Fixed in 0.1.1: the guard blocked the plugin's own `~/.claude/` path | Update the plugin |
 | `a run is already active here` | Previous run in this folder | `end`, or init with `--force` to restart (wipes counters, not artifacts) |
 | Tamper event in ledger | Test files changed after QA locked them | The task is failed and sent back; this is expected behaviour |
 | Windows: hooks silent | No `sh`/Git Bash or no Python on PATH | Install Git for Windows and Python 3, reopen the terminal |

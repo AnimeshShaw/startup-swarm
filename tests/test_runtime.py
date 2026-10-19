@@ -160,6 +160,21 @@ class TestBash(Base):
         self.assertFalse(self.b("engineer-senior", 'python "/x/runtime/swarm.py" ci --task T1 -- pytest -q'))
         self.assertTrue(self.b("engineer-senior", 'python "/x/runtime/swarm.py" ci --task T1 -- rm tests/a.py'))
 
+    def test_runtime_under_dot_claude_is_allowed(self):
+        """Marketplace installs live under ~/.claude/; the CI wrapper must still run, nothing else under .claude/ may."""
+        saved = sw.RUNTIME
+        rt = pathlib.Path(tempfile.mkdtemp()) / ".claude" / "plugins" / "swarm" / "runtime" / "swarm.py"
+        sw.RUNTIME = rt
+        try:
+            self.assertFalse(self.b("engineer-senior", 'python "%s" ci --task T1 -- pytest -q' % rt))
+            self.assertFalse(self.b("engineer-senior", "python %s diff --task T1" % rt))
+            self.assertTrue(self.b("engineer-senior", 'python "%s" ci --task T1 -- cat .claude/settings.json' % rt))
+            self.assertTrue(self.b("engineer-senior", 'python "%s" ci --task T1 -- pytest; echo x > .claude/hooks/swarm.py' % rt))
+            self.assertTrue(self.b("engineer-senior", "cat ~/.claude/settings.json"))
+            self.assertTrue(self.b("engineer-senior", "python %s init --force" % rt))
+        finally:
+            sw.RUNTIME = saved
+
     def test_cd_is_tracked_and_keys_protected(self):
         self.assertTrue(self.b("engineer-senior", "cd .venture && echo {} > gates/G1.json"))
         self.assertTrue(self.b("engineer-senior", "cd tests; rm test_a.py"))
@@ -274,6 +289,16 @@ class TestGates(Base):
         self.assertIsNone(sw.plan_state(self.v)["waiting"])
         self.prompt("end")
         self.assertIsNone(sw.find_vdir(str(self.tmp)))
+
+    def test_resume_revives_an_ended_run(self):
+        self.prompt("end")
+        self.assertIsNone(sw.find_vdir(str(self.tmp)))
+        self.prompt("pause")  # inert while ended
+        self.assertIsNone(sw.find_vdir(str(self.tmp)))
+        self.prompt("resume")
+        self.assertEqual(sw.find_vdir(str(self.tmp)), self.v)
+        events = [json.loads(l)["event"] for l in (self.v / "ledger.jsonl").read_text().splitlines()]
+        self.assertEqual(events[-1], "run_resumed")
 
 
 class TestValidation(Base):

@@ -2,7 +2,11 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.1.1] - 2026-10-19
+
+### Fixed
+- **CI wrapper blocked on every marketplace install.** The Bash guard rejected any command containing `.claude/`, and the plugin lives under `~/.claude/`, so engineers could not run `swarm.py ci` and handed back patches instead. Only the exact runtime path is now exempt; other `.claude/` access stays protected.
+- Typing `resume` now reactivates a run ended with `end` (human-typed message only).
 
 ### Changed
 - Agent contract rule 10 and orchestrator rules: agents never ask the human to apply patches or run commands; only batched decisions (max 4 per message).

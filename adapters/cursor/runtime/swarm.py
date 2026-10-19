@@ -487,10 +487,28 @@ def bash_targets(cmd):
     return out
 
 
+RUNTIME = HERE / "swarm.py"
+RT_TOKEN = re.compile(r"\"([^\"]*swarm\.py)\"|'([^']*swarm\.py)'|(\S*swarm\.py)")
+
+
+def strip_runtime(cmd):
+    """Remove this plugin's own runtime path from a command before the protected-path check.
+    Marketplace installs live under ~/.claude/, which would otherwise make every `swarm.py ci` call look
+    like an access to .claude/. Only a token that resolves to exactly this file is removed."""
+    def sub(m):
+        tok = os.path.expandvars(m.group(1) or m.group(2) or m.group(3))
+        try:
+            same = pathlib.Path(tok).expanduser().resolve() == RUNTIME.resolve()
+        except (OSError, ValueError):
+            same = False
+        return " " if same else m.group(0)
+    return RT_TOKEN.sub(sub, cmd)
+
+
 def check_bash(role, spec, cmd, root, tests):
     if "swarm.py" in cmd and not re.search(r"swarm\.py[\"']?\s+(ci|diff|validate|status)\b", cmd):
         return "runtime control commands are not available to agents"
-    if re.search(r"\.venture[\\/]+(gates|state|runtime|ledger)|\.claude[\\/]|\.git[\\/]+(hooks|config)|\.swarm\b", cmd, re.I):
+    if re.search(r"\.venture[\\/]+(gates|state|runtime|ledger)|\.claude[\\/]|\.git[\\/]+(hooks|config)|\.swarm\b", strip_runtime(cmd), re.I):
         return "that path is protected"
     for m in SECRET_WORD.finditer(cmd):
         if not SECRET_SAFE.search(m.group(0)):
@@ -712,11 +730,33 @@ def status_line(vdir):
     return "[swarm] mode=%s stage=%s gates: %s open-blocking-questions=%d waiting=%s env-file=%s runtime=%s" % (run_state(vdir).get("mode", "guided"), plan.get("stage", "discover"), gs, open_blocking(vdir), plan.get("waiting") or "no", env, HERE / "swarm.py")
 
 
+def find_ended(cwd=None):
+    """The .venture of a run that was ended with `end` (run.json present, active false), else None."""
+    p = pathlib.Path(cwd or os.getcwd()).resolve()
+    for d in [p] + list(p.parents):
+        rj = d / ".venture" / "runtime" / "run.json"
+        if rj.exists():
+            return (d / ".venture") if not load_json(rj, {}).get("active") else None
+    return None
+
+
 def cmd_prompt(inp):
     vdir = find_vdir(inp.get("cwd"))
-    if not vdir:
-        return
     text = inp.get("prompt", "") or ""
+    if not vdir:
+        # Only a message the human types can bring an ended run back; agents cannot produce this hook event.
+        m = CTRL.match(text)
+        ended = find_ended(inp.get("cwd")) if m and m.group(1).lower() == "resume" else None
+        if ended:
+            run = run_state(ended)
+            run["active"] = True
+            save_json(ended / "runtime" / "run.json", run)
+            plan = plan_state(ended)
+            plan["waiting"] = None
+            save_json(ended / "state" / "plan.json", plan)
+            log(ended, "run_resumed")
+            ctx("[swarm] ended run reactivated by the human; continue from plan.next. " + status_line(ended))
+        return
     m = APPROVE.match(text)
     if m:
         g = m.group(1).upper()
